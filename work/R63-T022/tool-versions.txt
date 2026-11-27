@@ -1,0 +1,4 @@
+go version go1.27.4 darwin/arm64
+Python 3.9.6
+gh version 2.101.0 (2026-09-15)
+Platform: darwin

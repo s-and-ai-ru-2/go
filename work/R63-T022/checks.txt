@@ -1,0 +1,29 @@
+GENERATION: first
+[LOCAL] fetching word-count test data from canonical-data.json
+[LOCAL] No test data found: canonical-data.json can't be found: stat /private/var/folders/y8/v4bjdyh11p78tlsyc9m128k80000gn/T/r63-t022-yuzog853/problem-specifications/exercises/word-count/canonical-data.json: no such file or directory
+[REMOTE] fetching word-count test data
+[REMOTE] source: https://raw.githubusercontent.com/exercism/problem-specifications/master/exercises/word-count/canonical-data.json
+[REMOTE] fetching latest commit (source: https://api.github.com/repos/exercism/problem-specifications/commits?path=exercises/word-count/canonical-data.json)
+[LOCAL] reading tests.toml file from exercise directory /private/var/folders/y8/v4bjdyh11p78tlsyc9m128k80000gn/T/r63-t022-yuzog853/first/exercises/practice/word-count/.meta/tests.toml
+collecting and filtering all test cases from the fetched test data
+ > parsing cases for property countWords
+[SUCCESS] output: /private/var/folders/y8/v4bjdyh11p78tlsyc9m128k80000gn/T/r63-t022-yuzog853/first/exercises/practice/word-count/go.mod
+
+GENERATION: second
+[LOCAL] fetching word-count test data from canonical-data.json
+[LOCAL] No test data found: canonical-data.json can't be found: stat /private/var/folders/y8/v4bjdyh11p78tlsyc9m128k80000gn/T/r63-t022-yuzog853/problem-specifications/exercises/word-count/canonical-data.json: no such file or directory
+[REMOTE] fetching word-count test data
+[REMOTE] source: https://raw.githubusercontent.com/exercism/problem-specifications/master/exercises/word-count/canonical-data.json
+[REMOTE] fetching latest commit (source: https://api.github.com/repos/exercism/problem-specifications/commits?path=exercises/word-count/canonical-data.json)
+[LOCAL] reading tests.toml file from exercise directory /private/var/folders/y8/v4bjdyh11p78tlsyc9m128k80000gn/T/r63-t022-yuzog853/second/exercises/practice/word-count/.meta/tests.toml
+collecting and filtering all test cases from the fetched test data
+ > parsing cases for property countWords
+[SUCCESS] output: /private/var/folders/y8/v4bjdyh11p78tlsyc9m128k80000gn/T/r63-t022-yuzog853/second/exercises/practice/word-count/go.mod
+
+PASS: both independent generations match.
+PASS: generated output matches committed cases_test.go.
+PASS: found 14 generated test cases.
+REFERENCE TESTS:
+ok  	wordcount	0.398s
+
+PASS: reference implementation passes generated tests.
