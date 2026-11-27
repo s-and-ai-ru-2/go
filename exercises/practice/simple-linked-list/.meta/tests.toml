@@ -36,7 +36,7 @@ description = "pop -> Pop updates the count"
 [70d747a1-2e84-4ebc-bc3f-dcbee6a05f6b]
 description = "push -> Can push to an empty list"
 include = false
-comment = "reimplemented by f3197f0a-1fea-45a5-939f-4a5ea60387ec"
+comment = "Reimplemented by f3197f0a-1fea-45a5-939f-4a5ea60387ec; this replacement exercises Push on an empty list. Push assigns the new node to top, whose previous value is nil."
 
 [f3197f0a-1fea-45a5-939f-4a5ea60387ec]
 description = "push -> Can push to an empty list"
@@ -69,12 +69,12 @@ description = "peek -> Can peek after a pop and push"
 [b97d00b6-2fab-435d-ae74-3233dcc13698]
 description = "toList LIFO -> Empty linked list to list is empty"
 include = false
-comments = "mutually exclusive with the FIFO implementation"
+comment = "Excluded as part of the LIFO Array variant. For an empty list, Array returns an empty []int, so FIFO and LIFO order are observationally identical; this case cannot distinguish the competing ordering contracts."
 
 [eedeb95f-b5cf-431d-8ad6-5854ba6b251c]
 description = "toList LIFO -> To list with multiple values"
 include = false
-comments = "mutually exclusive with the FIFO implementation"
+comment = "Excluded because this case asserts LIFO order for Array, while the Go reference implements FIFO: values walks from top (newest to oldest), and Array reverses that slice before returning it."
 
 [838678de-eaf3-4c14-b34e-7e35b6d851e8]
 description = "toList LIFO -> To list after a pop"

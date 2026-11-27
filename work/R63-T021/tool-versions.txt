@@ -1,0 +1,3 @@
+Python: Python 3.11.18
+Go: go version go1.27.4 darwin/arm64
+Go GOVERSION: go1.27.4
