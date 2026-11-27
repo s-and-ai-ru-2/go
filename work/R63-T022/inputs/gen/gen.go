@@ -1,0 +1,298 @@
+// package gen contains the commmon code used by practice exercises to generate `cases_test.go` from canonical data.
+package gen
+
+import (
+	"../gotools/config"
+	"bytes"
+	"encoding/json"
+	"flag"
+	"fmt"
+	"go/format"
+	"net/http"
+	"os"
+	"path/filepath"
+	"runtime"
+	"strings"
+	"text/template"
+	"time"
+)
+
+const (
+	// canonicalDataURL is the URL for the raw canonical-data.json data and requires the exercise name.
+	canonicalDataURL = "https://raw.githubusercontent.com/exercism/problem-specifications/master/exercises/%s/canonical-data.json"
+	// commitsURL is the GitHub api endpoint for the commit history of canonical-data.json and requires the exercise name.
+	commitsURL = "https://api.github.com/repos/exercism/problem-specifications/commits?path=exercises/%s/canonical-data.json"
+	// defaultOrigin is the origin used in the header of cases_test.go
+	defaultOrigin = "exercism/problem-specifications"
+)
+
+// problemSpecificationsDir is the location of the problem-specifications repository on the filesystem.
+// We're making the assumption that the problem-specifications repository has been cloned to
+// the same parent directory as the Exercism Go track repository.
+// E.g.
+//
+//	$ tree -L 1 .
+//	.
+//	├── problem-specifications
+//	└── go
+var problemSpecificationsDir string
+
+// exerciseDir is the location of the exercise and also the cases_test.go file.
+// This assumes that the generator script lives in the .meta directory within
+// the exercise directory. Falls back to the present working directory.
+var exerciseDir string
+
+// httpClient creates a http client with a timeout of 20 seconds in order not to get stuck waiting for a response.
+var httpClient = &http.Client{Timeout: 20 * time.Second}
+
+// Header tells how the test data was generated, for display in the header of cases_test.go
+type Header struct {
+	Commit string
+	Origin string
+	Slug   string
+}
+
+// String generates the header for cases_test.go file.
+func (h Header) String() string {
+	return fmt.Sprintf(
+		`package %s
+
+		// This is an auto-generated file. Do not change it manually. Run the generator to update the file.
+		// See https://github.com/exercism/go#synchronizing-tests-and-instructions
+		// Source: %s
+		// Commit: %s
+		`,
+		PackageName(h.Slug),
+		h.Origin,
+		h.Commit,
+	)
+}
+
+type testCase struct {
+	UUID        string      `json:"uuid"`
+	Description string      `json:"description"`
+	Comments    []string    `json:"comments"`
+	Property    string      `json:"property"`
+	Scenario    string      `json:"scenario"`
+	Scenarios   []string    `json:"scenarios"`
+	Input       interface{} `json:"input"`
+	Expected    interface{} `json:"expected"`
+	// Group is used when test cases are grouped with a group description.
+	// In practice there should be exactly 0 or 1 group descriptions.
+	Parents []string
+}
+
+// PackageName gives the Go package name from an exercise slug.
+func PackageName(exerciseSlug string) string {
+	return strings.ReplaceAll(exerciseSlug, "-", "")
+}
+
+// Gen generates the exercise cases_test.go file from the relevant canonical-data.json
+func Gen(exercise string, tests map[string]interface{}, t *template.Template) error {
+	githubToken := ""
+	flag.StringVar(&githubToken, "github_token", "", "Token used in Authorization header for Github")
+	flag.Parse()
+	// Determine the exercise directory.
+	// Use runtime.Caller to determine path location of the generator main package.
+	// Call frames: 0 is this frame, Gen().
+	//              1 should be a func in <exercise-dir>/.meta/gen.go (generator main package)
+	//                which is calling Gen().
+	//                                  |
+	//                                  V
+	if _, path, _, ok := runtime.Caller(1); ok {
+		// Construct a path 2 directories higher than the path for .meta/gen.go (should be exercise directory).
+		exerciseDir = filepath.Join(path, "..", "..")
+	} else {
+		return fmt.Errorf("unable to determine directory of exercise %s", exercise)
+	}
+
+	if exerciseDir == "" {
+		exerciseDir = "."
+	}
+
+	problemSpecificationsDir = filepath.Join(exerciseDir, "..", "..", "..", "..", "problem-specifications")
+
+	jFile := filepath.Join("exercises", exercise, "canonical-data.json")
+	fmt.Printf("[LOCAL] fetching %s test data from canonical-data.json\n", exercise)
+
+	var header Header
+	jTestData, err := getLocalTestData(jFile)
+	if err == nil {
+		header, err = getLatestLocalCommitMessage(jFile)
+	}
+
+	if err != nil {
+		// fetch json data remotely if there's no local file
+		fmt.Printf("[LOCAL] No test data found: %v\n", err)
+		fmt.Printf("[REMOTE] fetching %s test data\n", exercise)
+		jTestData, err = getRemoteTestData(exercise)
+		if err != nil {
+			return err
+		}
+		header, err = getRemoteCommit(exercise, githubToken)
+		if err != nil {
+			return err
+		}
+	}
+	header.Slug = exercise
+
+	if !json.Valid(jTestData) {
+		return fmt.Errorf("[ERROR] canonical-data.json seems not to be valid json")
+	}
+
+	// read tests.toml file to find which test cases should be excluded
+	tomlFile := filepath.Join(exerciseDir, ".meta", "tests.toml")
+	fmt.Printf("[LOCAL] reading tests.toml file from exercise directory %s\n", tomlFile)
+	excludedTests, err := getExcludedTestCases(tomlFile)
+	if err != nil {
+		return fmt.Errorf("[LOCAL] unable to read tests.toml file (%v)", err)
+	}
+
+	fmt.Println("collecting and filtering all test cases from the fetched test data")
+
+	allTestCases, err := getAllTestCasesFiltered(jTestData, excludedTests)
+	if err != nil {
+		return fmt.Errorf("failed to get filtered test-cases: %w", err)
+	}
+
+	casesPerProperty := map[string][]testCase{}
+
+	for _, testCase := range *allTestCases {
+		casesPerProperty[testCase.Property] = append(casesPerProperty[testCase.Property], testCase)
+	}
+
+	for property, testCases := range casesPerProperty {
+		fmt.Printf(" > parsing cases for property %s\n", property)
+		marshal, err := json.Marshal(testCases)
+		if err != nil {
+			return fmt.Errorf("[ERROR] failed to marshal test cases with property %s: %w", property, err)
+		}
+
+		// valueForProperty is an instance of the struct (defined in gen.go) for the current property
+		// and is used to unmarshal the test cases
+		valueForProperty, ok := tests[property]
+		if !ok {
+			return fmt.Errorf("[ERROR] failed to get struct for tests with property %s", property)
+		}
+		err = json.Unmarshal(marshal, valueForProperty)
+		if err != nil {
+			return err
+		}
+	}
+
+	testData := testCase{}
+	err = json.Unmarshal(jTestData, &testData)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal root test data: %v", err)
+	}
+
+	// package up a little meta data
+	d := struct {
+		Header
+		Comments []string
+		J        map[string]interface{}
+	}{Header: header, Comments: testData.Comments, J: tests}
+
+	casesFile := filepath.Join(exerciseDir, "cases_test.go")
+
+	// render the Go test cases
+	var out bytes.Buffer
+	if err := t.Execute(&out, &d); err != nil {
+		return fmt.Errorf("[ERROR] template.Execute failed. The template has a semantic error: %w", err)
+	}
+
+	casesFileContent := out.Bytes()
+	formattedFileContent, err := format.Source(casesFileContent)
+	if err != nil {
+		fmt.Print("[ERROR] failed to format the output with gofmt (the generated source has a syntax error)")
+		casesFileContent = append(casesFileContent, []byte(fmt.Sprintf("// !NOTE: Error during source formatting: Line:Column %v\n", err))...)
+		// Save the raw unformatted, error-containing source for purposes of debugging the generator.
+		outputSource("ERROR", casesFile, casesFileContent)
+		return err
+	}
+	// write output file for the Go test cases, but only if there is a change
+	if !casesFileUnchanged(casesFile, formattedFileContent) {
+		if err := outputSource("SUCCESS", casesFile, formattedFileContent); err != nil {
+			return err
+		}
+	}
+	// write the go.mod file
+	versionConfig := filepath.Join(exerciseDir, "..", "..", "..", "gotools", "config.json")
+	version, err := config.DefaultVersion(versionConfig)
+	if err != nil {
+		return err
+	}
+	goModFile := filepath.Join(exerciseDir, "go.mod")
+	return outputSource("SUCCESS", goModFile, []byte(fmt.Sprintf("module %s\n\ngo %s\n", PackageName(exercise), version)))
+}
+
+// ErrorMessage extracts the error string from a canonical-data.json error object.
+// Error objects have the form {"error": "some message"}.
+// Returns "" if v is not an error object or contains no error string.
+func ErrorMessage(v any) string {
+	m, ok := v.(map[string]any)
+	if !ok {
+		return ""
+	}
+	e, ok := m["error"].(string)
+	if !ok {
+		return ""
+	}
+	return e
+}
+
+// IsError reports whether v is a canonical-data.json error object (i.e., {"error": "..."}).
+func IsError(v any) bool {
+	return ErrorMessage(v) != ""
+}
+
+// FloatSliceToInts converts a JSON-decoded []any of float64 values to []int.
+// Returns nil if v is not a []any or if any element is not a float64.
+func FloatSliceToInts(v any) []int {
+	values, ok := v.([]any)
+	if !ok {
+		return nil
+	}
+	result := make([]int, len(values))
+	for i, elem := range values {
+		f, ok := elem.(float64)
+		if !ok {
+			return nil
+		}
+		result[i] = int(f)
+	}
+	return result
+}
+
+// casesFileUnchanged returns if the content matches the file. Commit ID does not count.
+func casesFileUnchanged(fileName string, src []byte) bool {
+	existing, err := os.ReadFile(fileName)
+	if err != nil {
+		return false
+	}
+	a := strings.Split(string(existing), "\n")
+	b := strings.Split(string(src), "\n")
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if strings.HasPrefix(a[i], "// Commit: ") && strings.HasPrefix(b[i], "// Commit: ") {
+			continue
+		}
+
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// outputSource writes the src text to the given fileName and outputs a log message with given [status].
+func outputSource(status, fileName string, src []byte) error {
+	err := os.WriteFile(fileName, src, 0o644) //nolint:gosec // 644 are the default permissions for a new file on *nix systems
+	if err != nil {
+		return fmt.Errorf("[FAILED] %q\n", err)
+	}
+	fmt.Printf("[%s] output: %s\n", status, fileName)
+	return nil
+}
