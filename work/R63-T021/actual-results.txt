@@ -1,0 +1,117 @@
+PASS: metadata validation
+Before: 24 included, 5 excluded
+After: 24 included, 5 excluded
+Generated cases expected/executed: 24/24
+
+$ go test -count=1 ./...
+ok  	r63t021/simplelinkedlist	0.395s
+
+exit code: 0
+
+$ go test -json -count=1 ./...
+{"Time":"2026-11-27T22:34:57.75509+05:30","Action":"start","Package":"r63t021/simplelinkedlist"}
+{"Time":"2026-11-27T22:34:57.9185+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList"}
+{"Time":"2026-11-27T22:34:57.918616+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList","Output":"=== RUN   TestList\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918677+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Empty_list_has_length_of_zero"}
+{"Time":"2026-11-27T22:34:57.91868+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Empty_list_has_length_of_zero","Output":"=== RUN   TestList/Empty_list_has_length_of_zero\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918695+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Empty_list_has_length_of_zero","Output":"--- PASS: TestList/Empty_list_has_length_of_zero (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918697+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Empty_list_has_length_of_zero","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918709+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Singleton_list_has_length_of_one"}
+{"Time":"2026-11-27T22:34:57.918711+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Singleton_list_has_length_of_one","Output":"=== RUN   TestList/Singleton_list_has_length_of_one\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918716+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Singleton_list_has_length_of_one","Output":"--- PASS: TestList/Singleton_list_has_length_of_one (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918719+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Singleton_list_has_length_of_one","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918721+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Non-empty_list_has_correct_length"}
+{"Time":"2026-11-27T22:34:57.918724+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Non-empty_list_has_correct_length","Output":"=== RUN   TestList/Non-empty_list_has_correct_length\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918726+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Non-empty_list_has_correct_length","Output":"--- PASS: TestList/Non-empty_list_has_correct_length (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918729+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Non-empty_list_has_correct_length","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918733+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Pop_from_empty_list_is_an_error"}
+{"Time":"2026-11-27T22:34:57.918735+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Pop_from_empty_list_is_an_error","Output":"=== RUN   TestList/Pop_from_empty_list_is_an_error\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918737+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Pop_from_empty_list_is_an_error","Output":"--- PASS: TestList/Pop_from_empty_list_is_an_error (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918739+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Pop_from_empty_list_is_an_error","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.91875+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_from_singleton_list"}
+{"Time":"2026-11-27T22:34:57.918753+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_from_singleton_list","Output":"=== RUN   TestList/Can_pop_from_singleton_list\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918758+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_from_singleton_list","Output":"--- PASS: TestList/Can_pop_from_singleton_list (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.91876+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_from_singleton_list","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918762+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_from_non-empty_list"}
+{"Time":"2026-11-27T22:34:57.918764+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_from_non-empty_list","Output":"=== RUN   TestList/Can_pop_from_non-empty_list\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.91878+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_from_non-empty_list","Output":"--- PASS: TestList/Can_pop_from_non-empty_list (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918783+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_from_non-empty_list","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918785+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_multiple_items"}
+{"Time":"2026-11-27T22:34:57.918787+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_multiple_items","Output":"=== RUN   TestList/Can_pop_multiple_items\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918794+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_multiple_items","Output":"--- PASS: TestList/Can_pop_multiple_items (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918796+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_pop_multiple_items","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918798+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Pop_updates_the_count"}
+{"Time":"2026-11-27T22:34:57.918799+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Pop_updates_the_count","Output":"=== RUN   TestList/Pop_updates_the_count\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918801+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Pop_updates_the_count","Output":"--- PASS: TestList/Pop_updates_the_count (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918803+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Pop_updates_the_count","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918805+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_push_to_an_empty_list"}
+{"Time":"2026-11-27T22:34:57.918809+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_push_to_an_empty_list","Output":"=== RUN   TestList/Can_push_to_an_empty_list\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918812+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_push_to_an_empty_list","Output":"--- PASS: TestList/Can_push_to_an_empty_list (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918814+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_push_to_an_empty_list","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918817+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_push_to_a_non-empty_list"}
+{"Time":"2026-11-27T22:34:57.918818+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_push_to_a_non-empty_list","Output":"=== RUN   TestList/Can_push_to_a_non-empty_list\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.91882+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_push_to_a_non-empty_list","Output":"--- PASS: TestList/Can_push_to_a_non-empty_list (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918822+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_push_to_a_non-empty_list","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918824+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Push_updates_count"}
+{"Time":"2026-11-27T22:34:57.918825+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Push_updates_count","Output":"=== RUN   TestList/Push_updates_count\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918841+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Push_updates_count","Output":"--- PASS: TestList/Push_updates_count (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918846+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Push_updates_count","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918854+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Push_and_pop"}
+{"Time":"2026-11-27T22:34:57.918856+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Push_and_pop","Output":"=== RUN   TestList/Push_and_pop\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918858+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Push_and_pop","Output":"--- PASS: TestList/Push_and_pop (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.91886+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Push_and_pop","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918862+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Peek_on_empty_list_is_an_error"}
+{"Time":"2026-11-27T22:34:57.918866+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Peek_on_empty_list_is_an_error","Output":"=== RUN   TestList/Peek_on_empty_list_is_an_error\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918869+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Peek_on_empty_list_is_an_error","Output":"--- PASS: TestList/Peek_on_empty_list_is_an_error (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918871+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Peek_on_empty_list_is_an_error","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918873+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_on_singleton_list"}
+{"Time":"2026-11-27T22:34:57.918875+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_on_singleton_list","Output":"=== RUN   TestList/Can_peek_on_singleton_list\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918877+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_on_singleton_list","Output":"--- PASS: TestList/Can_peek_on_singleton_list (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.91888+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_on_singleton_list","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918881+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_on_non-empty_list"}
+{"Time":"2026-11-27T22:34:57.918883+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_on_non-empty_list","Output":"=== RUN   TestList/Can_peek_on_non-empty_list\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918885+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_on_non-empty_list","Output":"--- PASS: TestList/Can_peek_on_non-empty_list (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918887+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_on_non-empty_list","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918889+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Peek_does_not_change_the_count"}
+{"Time":"2026-11-27T22:34:57.918891+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Peek_does_not_change_the_count","Output":"=== RUN   TestList/Peek_does_not_change_the_count\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918893+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Peek_does_not_change_the_count","Output":"--- PASS: TestList/Peek_does_not_change_the_count (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918895+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Peek_does_not_change_the_count","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918896+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_after_a_pop_and_push"}
+{"Time":"2026-11-27T22:34:57.9189+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_after_a_pop_and_push","Output":"=== RUN   TestList/Can_peek_after_a_pop_and_push\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918903+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_after_a_pop_and_push","Output":"--- PASS: TestList/Can_peek_after_a_pop_and_push (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918913+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Can_peek_after_a_pop_and_push","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918916+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Empty_linked_list_to_list_is_empty"}
+{"Time":"2026-11-27T22:34:57.918918+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Empty_linked_list_to_list_is_empty","Output":"=== RUN   TestList/Empty_linked_list_to_list_is_empty\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.91892+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Empty_linked_list_to_list_is_empty","Output":"--- PASS: TestList/Empty_linked_list_to_list_is_empty (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918928+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Empty_linked_list_to_list_is_empty","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918933+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/To_list_with_multiple_values"}
+{"Time":"2026-11-27T22:34:57.918934+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/To_list_with_multiple_values","Output":"=== RUN   TestList/To_list_with_multiple_values\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918936+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/To_list_with_multiple_values","Output":"--- PASS: TestList/To_list_with_multiple_values (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918938+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/To_list_with_multiple_values","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.91894+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/To_list_after_a_pop"}
+{"Time":"2026-11-27T22:34:57.918942+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/To_list_after_a_pop","Output":"=== RUN   TestList/To_list_after_a_pop\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918978+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/To_list_after_a_pop","Output":"--- PASS: TestList/To_list_after_a_pop (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.918992+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/To_list_after_a_pop","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.918995+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_empty_list_has_same_values"}
+{"Time":"2026-11-27T22:34:57.918998+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_empty_list_has_same_values","Output":"=== RUN   TestList/Reversed_empty_list_has_same_values\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.919001+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_empty_list_has_same_values","Output":"--- PASS: TestList/Reversed_empty_list_has_same_values (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.919004+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_empty_list_has_same_values","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.919006+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_singleton_list_is_same_list"}
+{"Time":"2026-11-27T22:34:57.919008+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_singleton_list_is_same_list","Output":"=== RUN   TestList/Reversed_singleton_list_is_same_list\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.919011+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_singleton_list_is_same_list","Output":"--- PASS: TestList/Reversed_singleton_list_is_same_list (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.919018+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_singleton_list_is_same_list","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.919021+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_non-empty_list_is_reversed"}
+{"Time":"2026-11-27T22:34:57.919022+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_non-empty_list_is_reversed","Output":"=== RUN   TestList/Reversed_non-empty_list_is_reversed\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.919025+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_non-empty_list_is_reversed","Output":"--- PASS: TestList/Reversed_non-empty_list_is_reversed (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.919027+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Reversed_non-empty_list_is_reversed","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.919029+05:30","Action":"run","Package":"r63t021/simplelinkedlist","Test":"TestList/Double_reverse"}
+{"Time":"2026-11-27T22:34:57.919031+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Double_reverse","Output":"=== RUN   TestList/Double_reverse\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.919037+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList/Double_reverse","Output":"--- PASS: TestList/Double_reverse (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.91904+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList/Double_reverse","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.919043+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Test":"TestList","Output":"--- PASS: TestList (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.919047+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Test":"TestList","Elapsed":0}
+{"Time":"2026-11-27T22:34:57.919051+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-11-27T22:34:57.919619+05:30","Action":"output","Package":"r63t021/simplelinkedlist","Output":"ok  \tr63t021/simplelinkedlist\t0.164s\n"}
+{"Time":"2026-11-27T22:34:57.919634+05:30","Action":"pass","Package":"r63t021/simplelinkedlist","Elapsed":0.165}
+
+exit code: 0

@@ -1,0 +1,10 @@
+Expected checks for R63-T021
+- tests.toml parses as TOML.
+- Exactly 29 canonical metadata entries are present.
+- Included/excluded counts are 24/5 both before and after.
+- Every description and reimplements key/value pair matches the pre-change snapshot.
+- All non-target metadata key/value pairs remain unchanged.
+- The three selected UUIDs have a non-empty singular `comment` rationale.
+- The scratch exercise runs the maintained reference implementation, not the learner stub.
+- `go test -count=1 ./...` exits 0.
+- The generated `TestList` subtest count is 24 (non-zero).
